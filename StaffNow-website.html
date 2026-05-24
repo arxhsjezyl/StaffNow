@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>StaffNow – Staff Your Restaurant in Minutes</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0d0d0d;
+    --paper: #f5f0e8;
+    --fire: #006D77;
+    --ember: #FF7A00;
+    --green: #10B981;
+    --smoke: #c8c0b4;
+    --charcoal: #2a2420;
+    --card: #fff9f0;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 2rem;
+    background: rgba(245, 240, 232, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 2px solid var(--ink);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 0.05em;
+    color: var(--ink);
+  }
+  .nav-logo span { color: var(--fire); }
+  nav a {
+    font-size: 0.85rem; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--ink); text-decoration: none;
+    transition: color 0.2s;
+  }
+  nav a:hover { color: var(--fire); }
+  .nav-links { display: flex; gap: 2rem; align-items: center; }
+  .nav-cta {
+    background: var(--fire); color: #fff !important;
+    padding: 0.55rem 1.4rem; border-radius: 2px;
+    font-weight: 700 !important;
+  }
+  .nav-cta:hover { background: var(--ember); color: #fff !important; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 72px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 5rem 3rem 5rem 5vw;
+    z-index: 2;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--green); color: var(--charcoal);
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 0.35rem 0.8rem;
+    border-radius: 2px; margin-bottom: 1.5rem; width: fit-content;
+  }
+  .hero-tag::before { content: '🔥'; font-size: 0.85rem; }
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3.5rem, 7vw, 6.5rem);
+    line-height: 0.95;
+    letter-spacing: 0.02em;
+    margin-bottom: 1.5rem;
+  }
+  h1 .accent { color: var(--fire); }
+  h1 .underline-wrap {
+    position: relative; display: inline-block;
+  }
+  h1 .underline-wrap::after {
+    content: '';
+    position: absolute; left: 0; bottom: -4px; right: 0; height: 6px;
+    background: var(--green);
+    transform: skewX(-8deg);
+  }
+  .hero-sub {
+    font-size: 1.1rem; line-height: 1.65; color: #4a4040;
+    max-width: 460px; margin-bottom: 2.5rem;
+  }
+  .hero-sub strong { color: var(--fire); }
+  .btn-group { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--fire); color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem; font-weight: 700; letter-spacing: 0.05em;
+    padding: 1rem 2rem; border: none; border-radius: 2px;
+    cursor: pointer; text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--ember); transform: translateY(-2px); }
+  .btn-secondary {
+    background: transparent; color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem; font-weight: 500;
+    padding: 1rem 2rem; border: 2px solid var(--ink); border-radius: 2px;
+    cursor: pointer; text-decoration: none;
+    transition: all 0.2s; display: inline-block;
+  }
+  .btn-secondary:hover { background: var(--ink); color: var(--paper); }
+  .hero-stats {
+    display: flex; gap: 2.5rem; margin-top: 3rem;
+    padding-top: 2rem; border-top: 1px solid var(--smoke);
+  }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.4rem; color: var(--fire); line-height: 1;
+  }
+  .stat-label { font-size: 0.8rem; color: #7a6e68; text-transform: uppercase; letter-spacing: 0.06em; }
+
+  .hero-right {
+    position: relative; display: flex; align-items: center; justify-content: center;
+    background: var(--charcoal);
+    clip-path: polygon(8% 0, 100% 0, 100% 100%, 0 100%);
+    overflow: hidden;
+  }
+  .hero-right::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 60% 40%, rgba(0,109,119,0.35) 0%, transparent 65%);
+  }
+  .hero-visual {
+    position: relative; z-index: 2;
+    width: 80%; max-width: 360px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 4px;
+    padding: 2rem;
+    backdrop-filter: blur(4px);
+  }
+  .shift-card {
+    background: rgba(255,249,240,0.07);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 4px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 0.75rem;
+    display: flex; align-items: center; gap: 1rem;
+    animation: slideIn 0.6s ease both;
+  }
+  .shift-card:nth-child(2) { animation-delay: 0.15s; }
+  .shift-card:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  .shift-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; flex-shrink: 0;
+  }
+  .shift-info { flex: 1; }
+  .shift-name { font-size: 0.85rem; font-weight: 600; color: #f5f0e8; }
+  .shift-role { font-size: 0.72rem; color: #a89e98; }
+  .shift-badge {
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em;
+    padding: 0.2rem 0.5rem; border-radius: 2px;
+  }
+  .badge-green { background: #1a4a2e; color: #4ade80; }
+  .badge-orange { background: #4a1a00; color: var(--ember); }
+  .hero-card-label {
+    font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--smoke); margin-bottom: 1rem; font-weight: 600;
+  }
+  .fill-time {
+    text-align: center; margin-top: 1.2rem;
+    padding-top: 1.2rem; border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .fill-time-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.8rem; color: var(--green); line-height: 1;
+  }
+  .fill-time-label { font-size: 0.72rem; color: var(--smoke); text-transform: uppercase; letter-spacing: 0.08em; }
+
+  /* ── PAIN SECTION ── */
+  .pain {
+    background: var(--charcoal);
+    padding: 6rem 5vw;
+    color: var(--paper);
+    position: relative;
+    overflow: hidden;
+  }
+  .pain::before {
+    content: 'BURNOUT';
+    position: absolute; right: -2rem; top: 50%; transform: translateY(-50%);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 12rem; color: rgba(255,255,255,0.03);
+    white-space: nowrap; pointer-events: none;
+  }
+  .section-label {
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--fire);
+    margin-bottom: 1rem;
+  }
+  .pain h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    line-height: 1; margin-bottom: 1.5rem;
+  }
+  .pain-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem; margin-top: 3rem;
+  }
+  .pain-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 4px; padding: 1.8rem;
+    transition: border-color 0.2s;
+  }
+  .pain-card:hover { border-color: var(--fire); }
+  .pain-icon { font-size: 2rem; margin-bottom: 1rem; }
+  .pain-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--paper); }
+  .pain-card p { font-size: 0.88rem; color: #a89e98; line-height: 1.6; }
+
+  /* ── HOW IT WORKS ── */
+  .how {
+    padding: 6rem 5vw;
+    background: var(--paper);
+  }
+  .how h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    margin-bottom: 0.5rem;
+  }
+  .how-sub { color: #6a5e58; margin-bottom: 4rem; max-width: 500px; line-height: 1.6; }
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; }
+  .step { position: relative; }
+  .step-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 5rem; line-height: 1;
+    color: var(--green); opacity: 0.5;
+    margin-bottom: -0.5rem;
+  }
+  .step h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .step p { font-size: 0.88rem; color: #6a5e58; line-height: 1.65; }
+
+  /* ── FEATURES ── */
+  .features {
+    background: var(--ink);
+    padding: 6rem 5vw;
+    color: var(--paper);
+  }
+  .features h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    margin-bottom: 3.5rem;
+  }
+  .features h2 span { color: var(--fire); }
+  .feat-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px; background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .feat-item {
+    background: var(--ink);
+    padding: 2rem 2rem;
+    transition: background 0.2s;
+  }
+  .feat-item:hover { background: #1a1210; }
+  .feat-emoji { font-size: 1.8rem; margin-bottom: 1rem; }
+  .feat-item h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--paper); }
+  .feat-item p { font-size: 0.85rem; color: #7a6e68; line-height: 1.65; }
+
+  /* ── TESTIMONIAL ── */
+  .testimonial {
+    background: var(--fire);
+    padding: 5rem 5vw;
+    text-align: center;
+    color: #fff;
+  }
+  .testimonial blockquote {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(1.3rem, 3vw, 2rem);
+    font-weight: 300; font-style: italic;
+    max-width: 720px; margin: 0 auto 2rem;
+    line-height: 1.5;
+  }
+  .testimonial cite {
+    font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; opacity: 0.75;
+  }
+
+  /* ── CTA ── */
+  .cta-section {
+    padding: 7rem 5vw;
+    background: var(--paper);
+    text-align: center;
+  }
+  .cta-section h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 7vw, 6rem);
+    line-height: 1; margin-bottom: 1rem;
+  }
+  .cta-section h2 span { color: var(--fire); }
+  .cta-section p { font-size: 1.1rem; color: #6a5e58; margin-bottom: 2.5rem; }
+  .cta-form {
+    display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap;
+    max-width: 480px; margin: 0 auto;
+  }
+  .cta-input {
+    flex: 1; min-width: 200px;
+    padding: 1rem 1.2rem;
+    border: 2px solid var(--ink); border-radius: 2px;
+    font-family: 'DM Sans', sans-serif; font-size: 1rem;
+    background: var(--card);
+    outline: none; transition: border-color 0.2s;
+  }
+  .cta-input:focus { border-color: var(--fire); }
+  .cta-note { font-size: 0.78rem; color: var(--smoke); margin-top: 1rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--charcoal);
+    color: var(--smoke);
+    padding: 2.5rem 5vw;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1rem;
+    font-size: 0.82rem;
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem; color: var(--paper); letter-spacing: 0.05em;
+  }
+  .footer-logo span { color: var(--fire); }
+  footer a { color: var(--smoke); text-decoration: none; }
+  footer a:hover { color: var(--paper); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-left { padding: 3rem 1.5rem; }
+    .hero-right {
+      clip-path: none;
+      padding: 3rem 1.5rem;
+      min-height: 360px;
+    }
+    .hero-visual { width: 100%; max-width: 100%; }
+    .hero-stats { gap: 1.5rem; }
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1rem; }
+    .pain, .how, .features, .cta-section { padding: 4rem 1.5rem; }
+    footer { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Staff<span>Now</span></div>
+  <div class="nav-links">
+    <a href="#how">How it works</a>
+    <a href="#features">Features</a>
+    <a href="#demo" class="nav-cta">Book a Demo</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">For Philippine Restaurant Operators</div>
+    <h1>
+      Fill Shifts in<br>
+      <span class="accent"><span class="underline-wrap">Minutes.</span></span><br>
+      Not Days.
+    </h1>
+    <p class="hero-sub">
+      Urban restaurants in PH lose revenue every week to last-minute no-shows and burnout.
+      <strong>StaffNow connects you with pre-vetted, trained staff instantly</strong> — powered by AI that predicts gaps before they hurt your service.
+    </p>
+    <div class="btn-group">
+      <a href="#demo" class="btn-primary">Book Free Demo →</a>
+      <a href="#how" class="btn-secondary">See How It Works</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">8 min</div>
+        <div class="stat-label">Avg. shift fill time</div>
+      </div>
+      <div>
+        <div class="stat-num">60%</div>
+        <div class="stat-label">Less manager stress</div>
+      </div>
+      <div>
+        <div class="stat-num">₱0</div>
+        <div class="stat-label">Recruitment fees</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-visual">
+      <div class="hero-card-label">🟢 Live Shift Board — Tonight</div>
+      <div class="shift-card">
+        <div class="shift-avatar" style="background:#1a3a25;">👨‍🍳</div>
+        <div class="shift-info">
+          <div class="shift-name">Carlo M.</div>
+          <div class="shift-role">Line Cook • 4★★★★ • 42 shifts</div>
+        </div>
+        <span class="shift-badge badge-green">CONFIRMED</span>
+      </div>
+      <div class="shift-card">
+        <div class="shift-avatar" style="background:#3a2a1a;">👩‍🍽️</div>
+        <div class="shift-info">
+          <div class="shift-name">Ana R.</div>
+          <div class="shift-role">Floor Staff • 4★★★★ • 28 shifts</div>
+        </div>
+        <span class="shift-badge badge-green">CONFIRMED</span>
+      </div>
+      <div class="shift-card">
+        <div class="shift-avatar" style="background:#3a1a00;">🧑‍🍳</div>
+        <div class="shift-info">
+          <div class="shift-name">Rico T.</div>
+          <div class="shift-role">Cashier • 5★★★★★ • 67 shifts</div>
+        </div>
+        <span class="shift-badge badge-orange">EN ROUTE</span>
+      </div>
+      <div class="fill-time">
+        <div class="fill-time-num">8 min</div>
+        <div class="fill-time-label">Average fill time tonight</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAIN -->
+<section class="pain">
+  <div class="section-label">The Problem</div>
+  <h2>Your Kitchen is on Fire.<br>And Not the Good Kind.</h2>
+  <p style="max-width:560px; color:#a89e98; line-height:1.65;">Philippine restaurant operators face a perfect storm of labor challenges that hit revenue, quality, and owner mental health simultaneously.</p>
+  <div class="pain-grid">
+    <div class="pain-card">
+      <div class="pain-icon">😰</div>
+      <h3>Last-Minute No-Shows</h3>
+      <p>A cook calls out at 5PM for a 7PM service. You're scrambling, overworking your team, or turning tables away.</p>
+    </div>
+    <div class="pain-card">
+      <div class="pain-icon">📉</div>
+      <h3>Chronic Understaffing</h3>
+      <p>Urban areas see 30–45% annual turnover in food service. You spend more time hiring than running your business.</p>
+    </div>
+    <div class="pain-card">
+      <div class="pain-icon">🔥</div>
+      <h3>Manager Burnout</h3>
+      <p>Constant firefighting, 14-hour days, and zero predictability kills your best people — starting with you.</p>
+    </div>
+    <div class="pain-card">
+      <div class="pain-icon">💸</div>
+      <h3>Lost Revenue</h3>
+      <p>Slow service, closed sections, and inconsistent quality drive customers out the door and onto the next restaurant's Google review.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="section-label">How It Works</div>
+  <h2>From Crisis to Covered in 3 Steps</h2>
+  <p class="how-sub">No more agency fees, no endless WhatsApp groups, no untrained strangers showing up to your kitchen.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>Post Your Shift</h3>
+      <p>Open a shift in the app — specify role, time, location, and any skills needed. Takes under 60 seconds.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>AI Matches & Alerts</h3>
+      <p>Our system instantly pings pre-vetted workers nearby who match your requirements and have a proven track record.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>They Show Up Ready</h3>
+      <p>Workers complete VR/AR onboarding for your restaurant type before arriving. Confirmed, briefed, and on time.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <h3>You Stay in Control</h3>
+      <p>Rate workers, build your preferred roster, and let our AI predict your next staffing gap before it happens.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="section-label" style="color:var(--ember);">Platform Features</div>
+  <h2>Everything You Need to <span>Stop Firefighting</span></h2>
+  <div class="feat-grid">
+    <div class="feat-item">
+      <div class="feat-emoji">⚡</div>
+      <h3>Instant Shift Filling</h3>
+      <p>Average fill time of under 10 minutes. Our network of workers is always on standby for your area.</p>
+    </div>
+    <div class="feat-item">
+      <div class="feat-emoji">🤖</div>
+      <h3>AI Demand Forecasting</h3>
+      <p>Predict busy nights, holidays, and events ahead of time so you're never caught short again.</p>
+    </div>
+    <div class="feat-item">
+      <div class="feat-emoji">🥽</div>
+      <h3>VR/AR Onboarding</h3>
+      <p>Workers learn your restaurant's workflow virtually before their first shift — no babysitting required.</p>
+    </div>
+    <div class="feat-item">
+      <div class="feat-emoji">⭐</div>
+      <h3>Pre-Vetted Talent Pool</h3>
+      <p>Every worker is background-checked, skill-verified, and rated by hundreds of shifts completed.</p>
+    </div>
+    <div class="feat-item">
+      <div class="feat-emoji">📊</div>
+      <h3>Labor Cost Dashboard</h3>
+      <p>Track spend in real time. Optimize staffing ratios and eliminate unnecessary overtime costs.</p>
+    </div>
+    <div class="feat-item">
+      <div class="feat-emoji">🔄</div>
+      <h3>Build Your Bench</h3>
+      <p>Save your favourite workers to a preferred roster. One tap to re-book people you already trust.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section class="testimonial">
+  <blockquote>
+    "Before StaffNow, a no-show meant I was behind the counter myself until midnight. Now I post a shift and it's filled before I finish my coffee."
+  </blockquote>
+  <cite>— Marco D., Owner · Taquería Nueva, BGC</cite>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="demo">
+  <div class="section-label">Get Started</div>
+  <h2>Your Next Shift Is<br><span>Already Covered.</span></h2>
+  <p>Book a free 20-minute demo. We'll show you how StaffNow works for your specific restaurant type and area.</p>
+  <div class="cta-form">
+    <input type="email" class="cta-input" placeholder="your@restaurant.com" />
+    <a href="#" class="btn-primary">Book My Demo →</a>
+  </div>
+  <p class="cta-note">No commitment. No credit card. Just a calmer shift schedule.</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Staff<span>Now</span></div>
+  <div>Built for Philippine restaurant operators &nbsp;•&nbsp; <a href="mailto:hello@staffnow.ph">hello@staffnow.ph</a></div>
+  <div>© 2026 StaffNow Inc.</div>
+</footer>
+
+</body>
+</html>
